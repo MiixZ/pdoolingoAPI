@@ -1,0 +1,34 @@
+# Archivos y directorios generados por el sistema operativo
+.DS_Store
+Thumbs.db
+
+# Directorios de dependencias
+/node_modules
+/bower_components
+
+# Archivos de compilación y construcción
+/dist
+/build
+/out
+
+# Archivos de configuración local
+.env
+.env.local
+.env.*.local
+
+# Logs y archivos temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+*.log.*
+*.swp
+*.tmp
+
+# Archivos de respaldo
+*.bak
+*.backup
+*.old
+
+# Archivos de caché
+.cache/
