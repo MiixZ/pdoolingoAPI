@@ -3,6 +3,6 @@ import controladorUsuario from "../controllers/usuarioC";
 
 const routerUsuario = Router();
 
-routerUsuario.get("/", controladorUsuario.getAllUsers);
+routerUsuario.get("/", controladorUsuario.getUsuarios);
 
 export default routerUsuario;
