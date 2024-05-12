@@ -19,7 +19,7 @@ const config: ConnectionOptions = {
 const pool = mysql2.createPool(config);
 
 class Database {
-  async query<T extends RowDataPacket[] | ResultSetHeader[]>(
+  async query<T extends RowDataPacket[] | ResultSetHeader>(
     sql: string,
     values?: any
   ) {

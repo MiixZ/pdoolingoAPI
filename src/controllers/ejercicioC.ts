@@ -11,6 +11,37 @@ class controladorEjercicio {
       sendError(res, error.message);
     }
   }
+
+  async getEjerciciobyID(req: Request, res: Response) {
+    try {
+      const id = Number(req.params["id"]);
+      const ejercicio = await servicioEjercicio.getEjercicioByID(id);
+
+      if (ejercicio) {
+        sendSuccess(res, ejercicio);
+      } else {
+        sendError(res, "Ejercicio no encontrado", 404);
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  async createEjercicio(req: Request, res: Response) {
+    try {
+      const ejercicio = req.body;
+      //  TODO: Validar los datos de entrada.
+      const result = await servicioEjercicio.createEjercicio(ejercicio);
+
+      if (result) {
+        sendSuccess(res, result);
+      } else {
+        sendError(res, "No se pudo crear el ejercicio", 500);
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
 }
 
 export default new controladorEjercicio();
