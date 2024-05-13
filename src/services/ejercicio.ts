@@ -52,6 +52,15 @@ class servicioEjercicio {
 
     return null;
   }
+
+  async deleteEjercicio(id: number): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM EJERCICIOS WHERE ID = ?",
+      id
+    );
+
+    return result.affectedRows > 0;
+  }
 }
 
 export default new servicioEjercicio();

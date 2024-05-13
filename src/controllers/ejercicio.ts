@@ -57,6 +57,19 @@ class controladorEjercicio {
       sendError(res, error.message);
     }
   }
+
+  async deleteEjercicio(req: Request, res: Response) {
+    try {
+      const id = Number(req.params["id"]);
+      const result = await servicioEjercicio.deleteEjercicio(id);
+
+      result
+        ? sendSuccess(res, "Ejercicio eliminado")
+        : sendError(res, "Ejercicio no encontrado", 404);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
 }
 
 export default new controladorEjercicio();
