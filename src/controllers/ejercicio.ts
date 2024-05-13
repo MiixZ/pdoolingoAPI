@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import servicioEjercicio from "../services/ejercicio";
 import { sendError, sendSuccess } from "../utils/requestHandler";
+import { EjercicioModel } from "models/ejercicio";
 
-class controladorEjercicio {
-  async getEjercicios(req: Request, res: Response) {
+export class controladorEjercicio {
+  static async getEjercicios(req: Request, res: Response) {
     try {
-      const ejercicios = await servicioEjercicio.getEjercicios();
+      const ejercicios = await EjercicioModel.getEjercicios();
 
       ejercicios.length > 0
         ? sendSuccess(res, ejercicios)
@@ -16,10 +16,10 @@ class controladorEjercicio {
     }
   }
 
-  async getEjerciciobyID(req: Request, res: Response) {
+  static async getEjerciciobyID(req: Request, res: Response) {
     try {
       const id = Number(req.params["id"]);
-      const ejercicio = await servicioEjercicio.getEjercicioByID(id);
+      const ejercicio = await EjercicioModel.getEjercicioByID(id);
 
       ejercicio
         ? sendSuccess(res, ejercicio)
@@ -29,11 +29,11 @@ class controladorEjercicio {
     }
   }
 
-  async createEjercicio(req: Request, res: Response) {
+  static async createEjercicio(req: Request, res: Response) {
     try {
       const ejercicio = req.body;
       //  TODO: Validar los datos de entrada.
-      const result = await servicioEjercicio.createEjercicio(ejercicio);
+      const result = await EjercicioModel.createEjercicio(ejercicio);
 
       result
         ? sendSuccess(res, result)
@@ -43,12 +43,12 @@ class controladorEjercicio {
     }
   }
 
-  async updateEjercicio(req: Request, res: Response) {
+  static async updateEjercicio(req: Request, res: Response) {
     try {
       const ejercicio = req.body;
       const id = Number(req.params["id"]);
       //  TODO: Validar los datos de entrada.
-      const result = await servicioEjercicio.updateEjercicio(id, ejercicio);
+      const result = await EjercicioModel.updateEjercicio(id, ejercicio);
 
       result
         ? sendSuccess(res, result)
@@ -58,10 +58,10 @@ class controladorEjercicio {
     }
   }
 
-  async deleteEjercicio(req: Request, res: Response) {
+  static async deleteEjercicio(req: Request, res: Response) {
     try {
       const id = Number(req.params["id"]);
-      const result = await servicioEjercicio.deleteEjercicio(id);
+      const result = await EjercicioModel.deleteEjercicio(id);
 
       result
         ? sendSuccess(res, "Ejercicio eliminado")
@@ -71,5 +71,3 @@ class controladorEjercicio {
     }
   }
 }
-
-export default new controladorEjercicio();
