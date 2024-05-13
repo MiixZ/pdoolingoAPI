@@ -17,11 +17,9 @@ class controladorEjercicio {
       const id = Number(req.params["id"]);
       const ejercicio = await servicioEjercicio.getEjercicioByID(id);
 
-      if (ejercicio) {
-        sendSuccess(res, ejercicio);
-      } else {
-        sendError(res, "Ejercicio no encontrado", 404);
-      }
+      ejercicio
+        ? sendSuccess(res, ejercicio)
+        : sendError(res, "Ejercicio no encontrado", 404);
     } catch (error: any) {
       sendError(res, error.message);
     }

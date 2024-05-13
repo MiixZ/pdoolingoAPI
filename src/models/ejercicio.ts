@@ -2,8 +2,8 @@ export interface Ejercicio {
   id: number;
   enunciado: string;
   tipo: tipoEjercicio;
-  costePista: number;
-  tipoCostePista: tipoCostePista;
+  coste_pista: number;
+  tipo_coste_pista: tipoCostePista;
   xp: number;
 }
 
@@ -15,6 +15,6 @@ enum tipoEjercicio {
 }
 
 enum tipoCostePista {
-  Vida = "vida",
+  Vida = "vidas",
   XP = "experiencia",
 }
