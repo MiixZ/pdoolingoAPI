@@ -6,6 +6,10 @@ class controladorEjercicio {
   async getEjercicios(req: Request, res: Response) {
     try {
       const ejercicios = await servicioEjercicio.getEjercicios();
+
+      ejercicios.length > 0
+        ? sendSuccess(res, ejercicios)
+        : sendError(res, "No hay ejercicios registrados", 404);
       sendSuccess(res, ejercicios);
     } catch (error: any) {
       sendError(res, error.message);
@@ -31,11 +35,9 @@ class controladorEjercicio {
       //  TODO: Validar los datos de entrada.
       const result = await servicioEjercicio.createEjercicio(ejercicio);
 
-      if (result) {
-        sendSuccess(res, result);
-      } else {
-        sendError(res, "No se pudo crear el ejercicio", 500);
-      }
+      result
+        ? sendSuccess(res, result)
+        : sendError(res, "No se pudo crear el ejercicio", 500);
     } catch (error: any) {
       sendError(res, error.message);
     }
