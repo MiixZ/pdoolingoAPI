@@ -40,6 +40,21 @@ class controladorEjercicio {
       sendError(res, error.message);
     }
   }
+
+  async updateEjercicio(req: Request, res: Response) {
+    try {
+      const ejercicio = req.body;
+      const id = Number(req.params["id"]);
+      //  TODO: Validar los datos de entrada.
+      const result = await servicioEjercicio.updateEjercicio(id, ejercicio);
+
+      result
+        ? sendSuccess(res, result)
+        : sendError(res, "Ejercicio no encontrado", 404);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
 }
 
 export default new controladorEjercicio();

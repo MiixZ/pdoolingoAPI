@@ -36,6 +36,22 @@ class servicioEjercicio {
 
     return null;
   }
+
+  async updateEjercicio(
+    id: number,
+    data: Ejercicio
+  ): Promise<Ejercicio | null> {
+    const result = await db.query<ResultSetHeader>(
+      "UPDATE EJERCICIOS SET ? WHERE ID = ?",
+      [data, id]
+    );
+
+    if (result.affectedRows) {
+      return this.getEjercicioByID(id);
+    }
+
+    return null;
+  }
 }
 
 export default new servicioEjercicio();
