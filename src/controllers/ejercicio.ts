@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { sendError, sendSuccess } from "../utils/requestHandler";
-import { EjercicioModel } from "models/ejercicio";
+import { EjercicioModel } from "../models/ejercicio";
 
 export class controladorEjercicio {
   static async getEjercicios(req: Request, res: Response) {
@@ -10,7 +10,6 @@ export class controladorEjercicio {
       ejercicios.length > 0
         ? sendSuccess(res, ejercicios)
         : sendError(res, "No hay ejercicios registrados", 404);
-      sendSuccess(res, ejercicios);
     } catch (error: any) {
       sendError(res, error.message);
     }
