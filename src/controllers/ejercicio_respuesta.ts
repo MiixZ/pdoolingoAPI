@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import servicioRespuesta from "../services/servicioRespuesta";
+import servicioER from "../services/ejercicio_respuesta";
 import { sendError, sendSuccess } from "../utils/requestHandler";
 
 class controladorRespuesta {
-  async getRespuestas(req: Request, res: Response) {
+  async getEjerciciosRespuestas(req: Request, res: Response) {
     try {
-      const respuestas = await servicioRespuesta.getRespuestas();
-      sendSuccess(res, respuestas);
+      const ER = await servicioER.getEjercicioRespuestas();
+      sendSuccess(res, ER);
     } catch (error: any) {
       sendError(res, error.message);
     }

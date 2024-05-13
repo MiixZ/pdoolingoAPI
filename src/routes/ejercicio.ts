@@ -1,5 +1,5 @@
 import { Router } from "express";
-import controladorEjercicio from "../controllers/ejercicioC";
+import controladorEjercicio from "../controllers/ejercicio";
 
 const routerEjercicio = Router();
 

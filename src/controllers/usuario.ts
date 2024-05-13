@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import servicioUsuario from "../services/servicioUsuario";
+import servicioUsuario from "../services/usuario";
 import { sendError, sendSuccess } from "../utils/requestHandler";
 
 class controladorUsuario {

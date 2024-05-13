@@ -1,9 +1,9 @@
 import { Router } from "express";
-import routerUsuario from "./usuarioR";
-import routerEjercicio from "./ejercicioR";
-import routerRespuesta from "./respuestaR";
-import routerUE from "./usuario_ejercicioR";
-import routerER from "./ejercicio_respuestaR";
+import routerUsuario from "./usuario";
+import routerEjercicio from "./ejercicio";
+import routerRespuesta from "./respuesta";
+import routerUE from "./usuario_ejercicio";
+import routerER from "./ejercicio_respuesta";
 
 const router = Router();
 
