@@ -1,8 +1,8 @@
 import { Router } from "express";
-import controladorUsuarioEjercicios from "../controllers/usuario_ejercicio";
+import controladorUE from "../controllers/usuario_ejercicio";
 
 const routerUE = Router();
 
-routerUE.get("/", controladorUsuarioEjercicios.getUsuarioEjercicios);
+routerUE.get("/", controladorUE.getUsuarioEjercicios);
 
 export default routerUE;

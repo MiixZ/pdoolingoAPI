@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { UEModel } from "../models/usuario_ejercicio";
 import { sendError, sendSuccess } from "../utils/requestHandler";
 
-class controladorUsuarioEjercicios {
+class controladorUE {
   async getUsuarioEjercicios(req: Request, res: Response) {
     try {
       const usuarios_ejercicios = await UEModel.getUsuarioEjercicios();
@@ -13,4 +13,4 @@ class controladorUsuarioEjercicios {
   }
 }
 
-export default new controladorUsuarioEjercicios();
+export default new controladorUE();
