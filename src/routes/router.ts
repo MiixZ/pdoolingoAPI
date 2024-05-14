@@ -11,6 +11,6 @@ router.use("/usuarios", routerUsuario);
 router.use("/ejercicios", routerEjercicio);
 router.use("/respuestas", routerRespuesta);
 router.use("/usuario-ejercicios", routerUE);
-router.use("/ejercicio-respuestas", routerER);
+router.use("/ejercicios-respuestas", routerER);
 
 export default router;

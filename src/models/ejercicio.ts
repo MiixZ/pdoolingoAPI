@@ -23,7 +23,7 @@ enum tipoCostePista {
 }
 
 export class EjercicioModel {
-  public static async getEjercicios(): Promise<Ejercicio[]> {
+  static async getEjercicios(): Promise<Ejercicio[]> {
     const ejercicios = await db.query<RowDataPacket[]>(
       "SELECT * FROM EJERCICIOS"
     );
@@ -44,9 +44,7 @@ export class EjercicioModel {
     return null;
   }
 
-  public static async createEjercicio(
-    data: Ejercicio
-  ): Promise<Ejercicio | null> {
+  static async createEjercicio(data: Ejercicio): Promise<Ejercicio | null> {
     const result = await db.query<ResultSetHeader>(
       "INSERT INTO EJERCICIOS SET ?",
       data
@@ -59,7 +57,7 @@ export class EjercicioModel {
     return null;
   }
 
-  public static async updateEjercicio(
+  static async updateEjercicio(
     id: number,
     data: Ejercicio
   ): Promise<Ejercicio | null> {
@@ -75,7 +73,7 @@ export class EjercicioModel {
     return null;
   }
 
-  public static async deleteEjercicio(id: number): Promise<boolean> {
+  static async deleteEjercicio(id: number): Promise<boolean> {
     const result = await db.query<ResultSetHeader>(
       "DELETE FROM EJERCICIOS WHERE ID = ?",
       id
