@@ -45,8 +45,6 @@ export class usuarioModel {
   static async createUsuario(data: Usuario): Promise<Usuario | null> {
     // Genera un UUID para el nuevo usuario
     const id = uuidv4();
-
-    // Asegúrate de que el ID del usuario en los datos sea el UUID generado
     data.id = id;
 
     const result = await db.query<ResultSetHeader>(
