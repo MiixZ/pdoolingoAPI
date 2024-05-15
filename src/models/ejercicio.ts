@@ -31,7 +31,7 @@ export class EjercicioModel {
     return ejercicios as Ejercicio[];
   }
 
-  public static async getEjercicioByID(id: number): Promise<Ejercicio | null> {
+  static async getEjercicioByID(id: number): Promise<Ejercicio | null> {
     const ejercicio = await db.query<RowDataPacket[]>(
       "SELECT * FROM EJERCICIOS WHERE ID = ?",
       id
