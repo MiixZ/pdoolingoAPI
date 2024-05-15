@@ -1,6 +1,7 @@
 import db from "../database/database";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import { v4 as uuidv4 } from "uuid";
+
 interface Usuario {
   id: string;
   nombre: string;
