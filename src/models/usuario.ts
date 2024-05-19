@@ -43,6 +43,35 @@ export class usuarioModel {
     return null;
   }
 
+  static async getUsuariosByNombreApellidos(
+    nombre: string,
+    apellidos: string
+  ): Promise<Usuario[] | null> {
+    const usuarios = await db.query<RowDataPacket[]>(
+      "SELECT * FROM USUARIOS WHERE NOMBRE = ? AND APELLIDOS = ?",
+      [nombre, apellidos]
+    );
+
+    if (Array.isArray(usuarios) && usuarios.length > 0) {
+      return usuarios as Usuario[];
+    }
+
+    return null;
+  }
+
+  static async getUsuarioByDNI(dni: DNI): Promise<Usuario | null> {
+    const usuario = await db.query<RowDataPacket[]>(
+      "SELECT * FROM USUARIOS WHERE DNI = ?",
+      dni
+    );
+
+    if (Array.isArray(usuario) && usuario.length > 0) {
+      return usuario[0] as Usuario;
+    }
+
+    return null;
+  }
+
   static async createUsuario(data: Usuario): Promise<Usuario | null> {
     // Genera un UUID para el nuevo usuario
     const id = uuidv4();

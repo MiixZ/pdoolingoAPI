@@ -27,6 +27,45 @@ export class controladorUsuario {
     }
   }
 
+  static async getUsuariosByNombreApellidos(req: Request, res: Response) {
+    try {
+      const data = req.body;
+      const nombre = data.nombre;
+      const apellidos = data.apellidos;
+      const usuarios = await usuarioModel.getUsuariosByNombreApellidos(
+        nombre,
+        apellidos
+      );
+
+      if (usuarios) {
+        sendSuccess(res, usuarios);
+      } else {
+        sendError(res, "Usuario no encontrado", 404);
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async getUsuarioByDNI(req: Request, res: Response) {
+    try {
+      const dniString = req.body;
+      const dni = {
+        numero: Number(dniString.slice(0, -1)),
+        letra: dniString.slice(-1),
+      };
+      const usuario = await usuarioModel.getUsuarioByDNI(dni);
+
+      if (usuario) {
+        sendSuccess(res, usuario);
+      } else {
+        sendError(res, "Usuario no encontrado", 404);
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
   static async createUsuario(req: Request, res: Response) {
     try {
       const usuario = req.body;
