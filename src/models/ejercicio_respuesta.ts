@@ -32,6 +32,17 @@ export class ERModel {
     return null;
   }
 
+  static async getRespuestasByEjercicio(
+    id_ejercicio: number
+  ): Promise<number[]> {
+    const id_respuestas = await db.query<RowDataPacket[]>(
+      "SELECT id_respuesta FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
+      [id_ejercicio]
+    );
+
+    return id_respuestas as unknown as number[];
+  }
+
   static async asignarRespuesta(
     id_ejercicio: number,
     id_respuesta: number,
@@ -47,5 +58,16 @@ export class ERModel {
     }
 
     return null;
+  }
+
+  static async deleteEjercicioRespuestasByEjercicio(
+    id_ejercicio: number
+  ): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
+      [id_ejercicio]
+    );
+
+    return result ? true : false;
   }
 }

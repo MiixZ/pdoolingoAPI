@@ -30,6 +30,21 @@ export class controladorER {
     }
   }
 
+  static async getRespuestasByEjercicio(req: Request, res: Response) {
+    try {
+      const { id_ejercicio } = req.params;
+      const ER = await ERModel.getRespuestasByEjercicio(Number(id_ejercicio));
+
+      if (ER) {
+        sendSuccess(res, ER);
+      } else {
+        sendError(res, "Ejercicio-Respuesta no encontrado");
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
   static async asignarRespuesta(req: Request, res: Response) {
     try {
       const { id_ejercicio, id_respuesta, es_correcta } = req.body;
@@ -43,6 +58,26 @@ export class controladorER {
         sendSuccess(res, ER);
       } else {
         sendError(res, "No se pudo asignar la respuesta");
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async deleteEjercicioRespuestasByEjercicio(
+    req: Request,
+    res: Response
+  ) {
+    try {
+      const { id_ejercicio } = req.params;
+      const ER = await ERModel.deleteEjercicioRespuestasByEjercicio(
+        Number(id_ejercicio)
+      );
+
+      if (ER) {
+        sendSuccess(res, ER);
+      } else {
+        sendError(res, "No se pudo eliminar las respuestas");
       }
     } catch (error: any) {
       sendError(res, error.message);
