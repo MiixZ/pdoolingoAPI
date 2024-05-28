@@ -34,13 +34,13 @@ export class ERModel {
 
   static async getRespuestasByEjercicio(
     id_ejercicio: number
-  ): Promise<number[]> {
+  ): Promise<ejercicio_respuesta[]> {
     const id_respuestas = await db.query<RowDataPacket[]>(
-      "SELECT id_respuesta FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
+      "SELECT * FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
       [id_ejercicio]
     );
 
-    return id_respuestas as unknown as number[];
+    return id_respuestas as ejercicio_respuesta[];
   }
 
   static async asignarRespuesta(
