@@ -1,11 +1,12 @@
 import express, { Request, Response } from "express";
-import db from "./database/database";
+import cors from "cors";
 import router from "./routes/router";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
 
 app.use(express.json());
+app.use(cors());
 
 // Rutas
 app.get("/", async (req: Request, res: Response) => {
