@@ -49,4 +49,23 @@ export class controladorUE {
       sendError(res, error.message);
     }
   }
+
+  static async desasignarEjercicio(req: Request, res: Response) {
+    try {
+      const id_usuario = String(req.params.id_usuario);
+      const id_ejercicio = Number(req.params.id_ejercicio);
+      const result = await UEModel.desasignarEjercicio(
+        id_usuario,
+        id_ejercicio
+      );
+
+      if (result) {
+        sendSuccess(res, "Ejercicio desasignado correctamente");
+      } else {
+        sendError(res, "No se pudo desasignar el ejercicio");
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
 }

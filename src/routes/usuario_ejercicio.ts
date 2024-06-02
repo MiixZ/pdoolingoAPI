@@ -9,5 +9,9 @@ routerUE.get(
   controladorUE.getUsuarioEjercicioByID
 );
 routerUE.post("/", controladorUE.asignarEjercicio);
+routerUE.delete(
+  "/:id_usuario/:id_ejercicio",
+  controladorUE.desasignarEjercicio
+);
 
 export default routerUE;

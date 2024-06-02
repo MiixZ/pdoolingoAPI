@@ -46,4 +46,16 @@ export class UEModel {
 
     return null;
   }
+
+  static async desasignarEjercicio(
+    id_usuario: string,
+    id_ejercicio: number
+  ): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM USUARIOS_EJERCICIOS WHERE ID_USUARIO = ? AND ID_EJERCICIO = ?",
+      [id_usuario, id_ejercicio]
+    );
+
+    return result.affectedRows > 0;
+  }
 }
