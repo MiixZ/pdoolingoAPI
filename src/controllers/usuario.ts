@@ -27,14 +27,16 @@ export class controladorUsuario {
     }
   }
 
-  static async getUsuariosByNombreApellidos(req: Request, res: Response) {
+  static async getUsuariosBySesion(req: Request, res: Response) {
     try {
       const data = req.body;
       const nombre = data.nombre;
       const apellidos = data.apellidos;
-      const usuarios = await usuarioModel.getUsuariosByNombreApellidos(
+      const email = data.email;
+      const usuarios = await usuarioModel.getUsuariosByNombreApellidosEmail(
         nombre,
-        apellidos
+        apellidos,
+        email
       );
 
       if (usuarios) {

@@ -6,7 +6,7 @@ interface Usuario {
   id: string;
   nombre: string;
   apellido: string;
-  contrasena: string;
+  email: string;
   DNI: DNI;
   vidas: number;
   tipo: TipoUsuario;
@@ -43,13 +43,14 @@ export class usuarioModel {
     return null;
   }
 
-  static async getUsuariosByNombreApellidos(
+  static async getUsuariosByNombreApellidosEmail(
     nombre: string,
-    apellidos: string
+    apellidos: string,
+    email: string
   ): Promise<Usuario[] | null> {
     const usuarios = await db.query<RowDataPacket[]>(
-      "SELECT * FROM USUARIOS WHERE NOMBRE = ? AND APELLIDOS = ?",
-      [nombre, apellidos]
+      "SELECT * FROM USUARIOS WHERE NOMBRE = ? AND APELLIDOS = ? AND EMAIL = ?",
+      [nombre, apellidos, email]
     );
 
     if (Array.isArray(usuarios) && usuarios.length > 0) {
@@ -73,7 +74,6 @@ export class usuarioModel {
   }
 
   static async createUsuario(data: Usuario): Promise<Usuario | null> {
-    // Genera un UUID para el nuevo usuario
     const id = uuidv4();
     data.id = id;
 
