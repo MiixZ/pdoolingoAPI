@@ -68,4 +68,14 @@ export class controladorUE {
       sendError(res, error.message);
     }
   }
+
+  static async getEjerciciosByUsuario(req: Request, res: Response) {
+    try {
+      const id_usuario = String(req.params.id_usuario);
+      const ejercicios = await UEModel.getEjerciciosByUsuario(id_usuario);
+      sendSuccess(res, ejercicios);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
 }

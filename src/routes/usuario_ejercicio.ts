@@ -8,7 +8,10 @@ routerUE.get(
   "/:id_usuario/:id_ejercicio",
   controladorUE.getUsuarioEjercicioByID
 );
+routerUE.get("/:id_usuario", controladorUE.getEjerciciosByUsuario);
+
 routerUE.post("/", controladorUE.asignarEjercicio);
+
 routerUE.delete(
   "/:id_usuario/:id_ejercicio",
   controladorUE.desasignarEjercicio
