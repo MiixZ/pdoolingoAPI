@@ -4,6 +4,7 @@ import { RowDataPacket, ResultSetHeader } from "mysql2";
 export interface usuario_ejercicio {
   id_usuario: string;
   id_ejercicio: number;
+  xp_ganada: number;
 }
 
 export class UEModel {
@@ -33,15 +34,35 @@ export class UEModel {
 
   static async asignarEjercicio(
     id_usuario: string,
-    id_ejercicio: number
+    id_ejercicio: number,
+    xp_ganada: number
   ): Promise<usuario_ejercicio | null> {
-    const result = await db.query<ResultSetHeader>(
-      "INSERT INTO USUARIOS_EJERCICIOS (ID_USUARIO, ID_EJERCICIO) VALUES (?, ?)",
+    const usuarioEjercicioExistente = await db.query<RowDataPacket[]>(
+      "SELECT * FROM USUARIOS_EJERCICIOS WHERE ID_USUARIO = ? AND ID_EJERCICIO = ?",
       [id_usuario, id_ejercicio]
     );
 
-    if (result) {
-      return this.getUsuarioEjercicioByID(id_usuario, id_ejercicio);
+    if (
+      Array.isArray(usuarioEjercicioExistente) &&
+      usuarioEjercicioExistente.length > 0
+    ) {
+      const result = await db.query<ResultSetHeader>(
+        "UPDATE USUARIOS_EJERCICIOS SET XP_GANADA = ? WHERE ID_USUARIO = ? AND ID_EJERCICIO = ?",
+        [xp_ganada, id_usuario, id_ejercicio]
+      );
+
+      if (result) {
+        return this.getUsuarioEjercicioByID(id_usuario, id_ejercicio);
+      }
+    } else {
+      const result = await db.query<ResultSetHeader>(
+        "INSERT INTO USUARIOS_EJERCICIOS (ID_USUARIO, ID_EJERCICIO, XP_GANADA) VALUES (?, ?, ?)",
+        [id_usuario, id_ejercicio, xp_ganada]
+      );
+
+      if (result.affectedRows > 0) {
+        return this.getUsuarioEjercicioByID(id_usuario, id_ejercicio);
+      }
     }
 
     return null;

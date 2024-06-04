@@ -35,9 +35,12 @@ export class controladorUE {
     try {
       const id_usuario = String(req.body.id_usuario);
       const id_ejercicio = Number(req.body.id_ejercicio);
+      const xp_ganada = Number(req.body.xp_ganada);
+
       const usuario_ejercicio = await UEModel.asignarEjercicio(
         id_usuario,
-        id_ejercicio
+        id_ejercicio,
+        xp_ganada
       );
 
       if (usuario_ejercicio) {
