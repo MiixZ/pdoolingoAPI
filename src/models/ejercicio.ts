@@ -11,8 +11,8 @@ interface Ejercicio {
 }
 
 enum tipoEjercicio {
-  Flecha = "flecha",
-  Unir = "unir",
+  Parejas = "parejas",
+  Pescar = "pescar",
   Rellenar = "rellenar",
   Texto = "texto",
 }
