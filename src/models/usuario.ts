@@ -44,13 +44,12 @@ export class usuarioModel {
   }
 
   static async getUsuariosByNombreApellidosEmail(
-    nombre: string,
-    apellidos: string,
+    nombreCompleto: string,
     email: string
   ): Promise<Usuario[] | null> {
     const usuarios = await db.query<RowDataPacket[]>(
-      "SELECT * FROM USUARIOS WHERE NOMBRE = ? AND APELLIDOS = ? AND EMAIL = ?",
-      [nombre, apellidos, email]
+      "SELECT * FROM USUARIOS WHERE EMAIL = ? AND CONCAT(nombre, ' ', apellidos) = ?",
+      [email, nombreCompleto]
     );
 
     if (Array.isArray(usuarios) && usuarios.length > 0) {
