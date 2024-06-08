@@ -5,7 +5,6 @@ import mysql2, {
 } from "mysql2/promise";
 
 const config: ConnectionOptions = {
-  // Cambiar a las opciones del departamento.
   host: "localhost",
   user: "root",
   port: 3306,
