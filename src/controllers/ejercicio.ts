@@ -46,7 +46,6 @@ export class controladorEjercicio {
     try {
       const ejercicio = req.body;
       const id = Number(req.params["id"]);
-      //  TODO: Validar los datos de entrada.
       const result = await EjercicioModel.updateEjercicio(id, ejercicio);
 
       result
