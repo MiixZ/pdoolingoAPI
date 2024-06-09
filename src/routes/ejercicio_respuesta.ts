@@ -9,7 +9,9 @@ routerER.get(
   controladorER.getEjercicioRespuestabyID
 );
 routerER.get("/:id_ejercicio", controladorER.getRespuestasByEjercicio);
+
 routerER.post("/", controladorER.asignarRespuesta);
+
 routerER.delete(
   "/:id_ejercicio",
   controladorER.deleteEjercicioRespuestasByEjercicio

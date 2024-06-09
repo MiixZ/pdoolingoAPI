@@ -1,6 +1,8 @@
 import db from "../database/database";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 
+import type { Respuesta } from "./respuesta";
+
 interface ejercicio_respuesta {
   id_ejercicio: number;
   id_respuesta: number;
@@ -34,13 +36,13 @@ export class ERModel {
 
   static async getRespuestasByEjercicio(
     id_ejercicio: number
-  ): Promise<ejercicio_respuesta[]> {
-    const id_respuestas = await db.query<RowDataPacket[]>(
-      "SELECT * FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
+  ): Promise<{ respuestas: Respuesta[] }> {
+    const respuestas = await db.query<RowDataPacket[]>(
+      "SELECT R.*, ER.ES_CORRECTA AS correcta FROM RESPUESTAS R INNER JOIN EJERCICIOS_RESPUESTAS ER ON R.ID = ER.ID_RESPUESTA WHERE ER.ID_EJERCICIO = ?",
       [id_ejercicio]
     );
 
-    return id_respuestas as ejercicio_respuesta[];
+    return { respuestas: respuestas as Respuesta[] };
   }
 
   static async asignarRespuesta(

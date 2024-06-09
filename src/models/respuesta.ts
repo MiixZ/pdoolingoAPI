@@ -1,9 +1,10 @@
 import db from "../database/database";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
-interface Respuesta {
+export interface Respuesta {
   id: number;
   texto: string;
+  correcta?: boolean;
 }
 
 export class RespuestaModel {
