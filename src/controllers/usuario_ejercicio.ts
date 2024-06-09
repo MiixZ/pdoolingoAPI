@@ -31,6 +31,16 @@ export class controladorUE {
     }
   }
 
+  static async getEjerciciosByUsuario(req: Request, res: Response) {
+    try {
+      const id_usuario = String(req.params.id_usuario);
+      const ejercicios = await UEModel.getEjerciciosByUsuario(id_usuario);
+      sendSuccess(res, ejercicios);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
   static async asignarEjercicio(req: Request, res: Response) {
     try {
       const id_usuario = String(req.body.id_usuario);
@@ -72,11 +82,18 @@ export class controladorUE {
     }
   }
 
-  static async getEjerciciosByUsuario(req: Request, res: Response) {
+  static async desasignarEjerciciosByEjercicio(req: Request, res: Response) {
     try {
-      const id_usuario = String(req.params.id_usuario);
-      const ejercicios = await UEModel.getEjerciciosByUsuario(id_usuario);
-      sendSuccess(res, ejercicios);
+      const id_ejercicio = Number(req.params.id_ejercicio);
+      const result = await UEModel.desasignarEjerciciosByEjercicio(
+        id_ejercicio
+      );
+
+      if (result) {
+        sendSuccess(res, "Ejercicios desasignados correctamente");
+      } else {
+        sendError(res, "No se pudieron desasignar los ejercicios");
+      }
     } catch (error: any) {
       sendError(res, error.message);
     }

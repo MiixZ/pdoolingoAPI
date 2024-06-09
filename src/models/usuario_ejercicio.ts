@@ -32,6 +32,17 @@ export class UEModel {
     return null;
   }
 
+  static async getEjerciciosByUsuario(
+    id_usuario: string
+  ): Promise<usuario_ejercicio[]> {
+    const ejercicios = await db.query<RowDataPacket[]>(
+      "SELECT * FROM USUARIOS_EJERCICIOS WHERE ID_USUARIO = ?",
+      [id_usuario]
+    );
+
+    return ejercicios as usuario_ejercicio[];
+  }
+
   static async asignarEjercicio(
     id_usuario: string,
     id_ejercicio: number,
@@ -80,14 +91,14 @@ export class UEModel {
     return result.affectedRows > 0;
   }
 
-  static async getEjerciciosByUsuario(
-    id_usuario: string
-  ): Promise<usuario_ejercicio[]> {
-    const ejercicios = await db.query<RowDataPacket[]>(
-      "SELECT * FROM USUARIOS_EJERCICIOS WHERE ID_USUARIO = ?",
-      [id_usuario]
+  static async desasignarEjerciciosByEjercicio(
+    id_ejercicio: number
+  ): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM USUARIOS_EJERCICIOS WHERE ID_EJERCICIO = ?",
+      [id_ejercicio]
     );
 
-    return ejercicios as usuario_ejercicio[];
+    return result.affectedRows > 0;
   }
 }
