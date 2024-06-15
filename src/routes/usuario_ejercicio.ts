@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { controladorUE } from "../controllers/usuario_ejercicio";
-import router from "./router";
 
 const routerUE = Router();
 
