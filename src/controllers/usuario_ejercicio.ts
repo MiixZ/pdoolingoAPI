@@ -41,6 +41,20 @@ export class controladorUE {
     }
   }
 
+  static async getEjerciciosTemaByUsuario(req: Request, res: Response) {
+    try {
+      const id_usuario = String(req.params.id_usuario);
+      const id_tema = Number(req.params.id_tema);
+      const ejercicios = await UEModel.getEjerciciosTemaByUsuario(
+        id_usuario,
+        id_tema
+      );
+      sendSuccess(res, ejercicios);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
   static async asignarEjercicio(req: Request, res: Response) {
     try {
       const id_usuario = String(req.body.id_usuario);

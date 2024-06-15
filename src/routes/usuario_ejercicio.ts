@@ -9,6 +9,10 @@ routerUE.get(
   controladorUE.getUsuarioEjercicioByID
 );
 routerUE.get("/:id_usuario", controladorUE.getEjerciciosByUsuario);
+routerUE.get(
+  "/temas/:id_usuario/:id_tema",
+  controladorUE.getEjerciciosTemaByUsuario
+);
 
 routerUE.post("/", controladorUE.asignarEjercicio);
 

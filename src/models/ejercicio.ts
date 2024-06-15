@@ -8,7 +8,7 @@ interface Ejercicio {
   coste_pista: number;
   tipo_coste_pista: tipoCostePista;
   xp: number;
-  n_tema: number;
+  id_tema: number;
 }
 
 enum tipoEjercicio {

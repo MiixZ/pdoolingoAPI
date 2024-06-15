@@ -43,6 +43,18 @@ export class UEModel {
     return ejercicios as usuario_ejercicio[];
   }
 
+  static async getEjerciciosTemaByUsuario(
+    id_usuario: string,
+    id_tema: number
+  ): Promise<usuario_ejercicio[]> {
+    const ejercicios = await db.query<RowDataPacket[]>(
+      "SELECT UE.ID_USUARIO, UE.ID_EJERCICIO, UE.XP_GANADA FROM USUARIOS_EJERCICIOS AS UE JOIN EJERCICIOS AS E ON UE.ID_EJERCICIO = E.ID WHERE UE.ID_USUARIO = ? AND E.ID_TEMA = ?",
+      [id_usuario, id_tema]
+    );
+
+    return ejercicios as usuario_ejercicio[];
+  }
+
   static async asignarEjercicio(
     id_usuario: string,
     id_ejercicio: number,

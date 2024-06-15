@@ -46,6 +46,16 @@ export class controladorUI {
       const id_usuario = String(req.body.id_usuario);
       const id_insignia = Number(req.body.id_insignia);
 
+      const asignada = await controladorUI.comprobarAsignacion(
+        id_usuario,
+        id_insignia
+      );
+
+      if (asignada) {
+        sendError(res, "La insignia ya ha sido asignada a este usuario");
+        return;
+      }
+
       const usuario_insignia = await UIModel.asignarInsignia(
         id_usuario,
         id_insignia
@@ -59,6 +69,15 @@ export class controladorUI {
     } catch (error: any) {
       sendError(res, error.message);
     }
+  }
+
+  static async comprobarAsignacion(id_usuario: string, id_insignia: number) {
+    const usuario_insignia = await UIModel.getUsuarioInsigniaByID(
+      id_usuario,
+      id_insignia
+    );
+
+    return usuario_insignia ? true : false;
   }
 
   static async desasignarInsignia(req: Request, res: Response) {
