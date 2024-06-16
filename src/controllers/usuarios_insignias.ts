@@ -52,7 +52,7 @@ export class controladorUI {
       );
 
       if (asignada) {
-        sendError(res, "La insignia ya ha sido asignada a este usuario");
+        sendSuccess(res, "La insignia ya ha sido asignada a este usuario");
         return;
       }
 
@@ -103,6 +103,21 @@ export class controladorUI {
     try {
       const id_usuario = String(req.params.id_usuario);
       const result = await UIModel.desasignarInsigniasByUsuario(id_usuario);
+
+      if (result) {
+        sendSuccess(res, "Insignias desasignadas correctamente");
+      } else {
+        sendError(res, "No se pudieron desasignar las insignias");
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async desasignarInsigniasByInsignia(req: Request, res: Response) {
+    try {
+      const id_insignia = Number(req.params.id_insignia);
+      const result = await UIModel.desasignarInsigniasByInsignia(id_insignia);
 
       if (result) {
         sendSuccess(res, "Insignias desasignadas correctamente");

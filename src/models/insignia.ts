@@ -76,4 +76,13 @@ export class InsigniaModel {
 
     return result.affectedRows > 0;
   }
+
+  static async deleteInsigniasByTema(id_tema: number): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM INSIGNIAS WHERE ID_TEMA = ?",
+      id_tema
+    );
+
+    return result.affectedRows > 0;
+  }
 }

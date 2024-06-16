@@ -12,5 +12,9 @@ routerInsignia.post("/", controladorInsignia.createInsignia);
 routerInsignia.put("/:id", controladorInsignia.updateInsignia);
 
 routerInsignia.delete("/:id", controladorInsignia.deleteInsignia);
+routerInsignia.delete(
+  "/tema/:id_tema",
+  controladorInsignia.deleteInsigniaByTema
+);
 
 export default routerInsignia;

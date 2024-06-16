@@ -48,7 +48,7 @@ export class UEModel {
     id_tema: number
   ): Promise<usuario_ejercicio[]> {
     const ejercicios = await db.query<RowDataPacket[]>(
-      "SELECT UE.ID_USUARIO, UE.ID_EJERCICIO, UE.XP_GANADA FROM USUARIOS_EJERCICIOS AS UE JOIN EJERCICIOS AS E ON UE.ID_EJERCICIO = E.ID WHERE UE.ID_USUARIO = ? AND E.ID_TEMA = ?",
+      "SELECT UE.ID_USUARIO, UE.ID_EJERCICIO, UE.xp_ganada FROM USUARIOS_EJERCICIOS AS UE JOIN EJERCICIOS AS E ON UE.ID_EJERCICIO = E.ID WHERE UE.ID_USUARIO = ? AND E.ID_TEMA = ?",
       [id_usuario, id_tema]
     );
 

@@ -10,5 +10,10 @@ routerUI.get("/:id_usuario", controladorUI.getInsigniasByUsuario);
 routerUI.post("/", controladorUI.asignarInsignia);
 
 routerUI.delete("/:id_usuario/:id_insignia", controladorUI.desasignarInsignia);
+routerUI.delete("/:id_usuario", controladorUI.desasignarInsigniasByUsuario);
+routerUI.delete(
+  "/insignia/delete/:id_insignia",
+  controladorUI.desasignarInsigniasByInsignia
+);
 
 export default routerUI;

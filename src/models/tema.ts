@@ -5,7 +5,7 @@ interface Tema {
   id: number;
   titulo: string;
   descripcion: string;
-  n_tema: number;
+  n_tema?: number;
 }
 
 export class TemaModel {

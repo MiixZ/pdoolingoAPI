@@ -17,7 +17,7 @@ export class controladorInsignia {
 
   static async getInsigniabyID(req: Request, res: Response) {
     try {
-      const id = Number(req.params["id"]);
+      const id = Number(req.params.id);
       const insignia = await InsigniaModel.getInsigniaByID(id);
 
       insignia
@@ -30,7 +30,7 @@ export class controladorInsignia {
 
   static async getInsigniasByTema(req: Request, res: Response) {
     try {
-      const id_tema = Number(req.params["id_tema"]);
+      const id_tema = Number(req.params.id_tema);
       const insignias = await InsigniaModel.getInsigniasByTema(id_tema);
 
       insignias.length > 0
@@ -58,7 +58,7 @@ export class controladorInsignia {
   static async updateInsignia(req: Request, res: Response) {
     try {
       const insignia = req.body;
-      const id = Number(req.params["id"]);
+      const id = Number(req.params.id);
       const result = await InsigniaModel.updateInsignia(id, insignia);
 
       result
@@ -71,12 +71,25 @@ export class controladorInsignia {
 
   static async deleteInsignia(req: Request, res: Response) {
     try {
-      const id = Number(req.params["id"]);
+      const id = Number(req.params.id);
       const result = await InsigniaModel.deleteInsignia(id);
 
       result
         ? sendSuccess(res, "Insignia eliminada")
         : sendError(res, "Insignia no encontrada", 404);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async deleteInsigniaByTema(req: Request, res: Response) {
+    try {
+      const id_tema = Number(req.params.id_tema);
+      const result = await InsigniaModel.deleteInsigniasByTema(id_tema);
+
+      result
+        ? sendSuccess(res, "Insignias eliminadas")
+        : sendError(res, "No hay insignias para ese tema", 404);
     } catch (error: any) {
       sendError(res, error.message);
     }

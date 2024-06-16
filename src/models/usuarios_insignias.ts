@@ -92,4 +92,15 @@ export class UIModel {
 
     return result.affectedRows > 0;
   }
+
+  static async desasignarInsigniasByInsignia(
+    id_insignia: number
+  ): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM USUARIOS_INSIGNIAS WHERE ID_INSIGNIA = ?",
+      [id_insignia]
+    );
+
+    return result.affectedRows > 0;
+  }
 }
