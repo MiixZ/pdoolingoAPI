@@ -25,6 +25,15 @@ export class RespuestaModel {
     return respuesta[0] as Respuesta;
   }
 
+  static async getRespuestaByTexto(texto: string): Promise<Respuesta | null> {
+    const respuestas = await db.query<RowDataPacket[]>(
+      "SELECT * FROM RESPUESTAS WHERE TEXTO = ?",
+      [texto]
+    );
+
+    return respuestas[0] ? (respuestas[0] as Respuesta) : null;
+  }
+
   static async createRespuesta(data: Respuesta): Promise<Respuesta | null> {
     const result = await db.query<ResultSetHeader>(
       "INSERT INTO RESPUESTAS SET ?",

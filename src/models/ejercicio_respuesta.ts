@@ -62,6 +62,22 @@ export class ERModel {
     return null;
   }
 
+  static async updateEjercicioRespuesta(
+    id_ejercicio: number,
+    id_respuesta: number,
+    es_correcta: boolean
+  ): Promise<ejercicio_respuesta | null> {
+    const result = await db.query<ResultSetHeader>(
+      "UPDATE EJERCICIOS_RESPUESTAS SET ES_CORRECTA = ? WHERE ID_EJERCICIO = ? AND ID_RESPUESTA = ?",
+      [es_correcta, id_ejercicio, id_respuesta]
+    );
+
+    if (result.affectedRows > 0) {
+      return this.getEjercicioRespuestaByID(id_ejercicio, id_respuesta);
+    }
+
+    return this.getEjercicioRespuestaByID(id_ejercicio, id_respuesta);
+  }
   static async deleteEjercicioRespuestasByEjercicio(
     id_ejercicio: number
   ): Promise<boolean> {
@@ -69,6 +85,21 @@ export class ERModel {
       "DELETE FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
       [id_ejercicio]
     );
+
+    return result ? true : false;
+  }
+
+  static async deleteEjercicioRespuesta(
+    id_ejercicio: number,
+    id_respuesta: number
+  ): Promise<boolean> {
+    console.log(id_ejercicio, id_respuesta);
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ? AND ID_RESPUESTA = ?",
+      [id_ejercicio, id_respuesta]
+    );
+
+    console.log(result);
 
     return result ? true : false;
   }

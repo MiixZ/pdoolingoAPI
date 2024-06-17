@@ -22,6 +22,16 @@ export class controladorRespuesta {
     }
   }
 
+  static async getRespuestaByTexto(req: Request, res: Response) {
+    try {
+      const texto = req.params.texto;
+      const respuesta = await RespuestaModel.getRespuestaByTexto(texto);
+      sendSuccess(res, respuesta);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
   static async createRespuesta(req: Request, res: Response) {
     try {
       const data = req.body;
