@@ -10,6 +10,7 @@ interface Usuario {
   DNI: DNI;
   vidas: number;
   tipo: TipoUsuario;
+  grupo: number;
 }
 
 interface DNI {
@@ -79,7 +80,6 @@ export class usuarioModel {
     );
 
     if (result) {
-      // Usa el UUID para recuperar el usuario
       return this.getUsuarioByID(id);
     }
 
