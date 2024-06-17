@@ -93,13 +93,10 @@ export class ERModel {
     id_ejercicio: number,
     id_respuesta: number
   ): Promise<boolean> {
-    console.log(id_ejercicio, id_respuesta);
     const result = await db.query<ResultSetHeader>(
       "DELETE FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ? AND ID_RESPUESTA = ?",
       [id_ejercicio, id_respuesta]
     );
-
-    console.log(result);
 
     return result ? true : false;
   }
