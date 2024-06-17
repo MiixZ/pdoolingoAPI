@@ -30,10 +30,8 @@ export class controladorUsuario {
   static async getUsuariosBySesion(req: Request, res: Response) {
     try {
       const data = req.body;
-      const nombreCompleto = data.nombreCompleto;
       const email = data.email;
-      const usuarios = await usuarioModel.getUsuariosByNombreApellidosEmail(
-        nombreCompleto,
+      const usuarios = await usuarioModel.getUsuarioByEmail(
         email
       );
 
