@@ -31,9 +31,7 @@ export class controladorUsuario {
     try {
       const data = req.body;
       const email = data.email;
-      const usuarios = await usuarioModel.getUsuarioByEmail(
-        email
-      );
+      const usuarios = await usuarioModel.getUsuarioByEmail(email);
 
       if (usuarios) {
         sendSuccess(res, usuarios);
@@ -58,6 +56,21 @@ export class controladorUsuario {
         sendSuccess(res, usuario);
       } else {
         sendError(res, "Usuario no encontrado", 404);
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async getUsuariosByGrupo(req: Request, res: Response) {
+    try {
+      const grupo = Number(req.params.grupo);
+      const usuarios = await usuarioModel.getUsuariosByGrupo(grupo);
+
+      if (usuarios) {
+        sendSuccess(res, usuarios);
+      } else {
+        sendError(res, "Usuarios no encontrados", 404);
       }
     } catch (error: any) {
       sendError(res, error.message);

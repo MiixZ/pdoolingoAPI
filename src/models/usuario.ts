@@ -70,6 +70,15 @@ export class usuarioModel {
     return null;
   }
 
+  static async getUsuariosByGrupo(grupo: number): Promise<Usuario[]> {
+    const usuarios = await db.query<RowDataPacket[]>(
+      "SELECT * FROM USUARIOS WHERE GRUPO = ?",
+      grupo
+    );
+
+    return usuarios as Usuario[];
+  }
+
   static async createUsuario(data: Usuario): Promise<Usuario | null> {
     const id = uuidv4();
     data.id = id;

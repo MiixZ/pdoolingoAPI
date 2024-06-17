@@ -1,10 +1,12 @@
 import { Router } from "express";
 import { controladorUsuario } from "../controllers/usuario";
+import router from "./router";
 
 const routerUsuario = Router();
 
 routerUsuario.get("/", controladorUsuario.getUsuarios);
 routerUsuario.get("/:id", controladorUsuario.getUsuarioByID);
+routerUsuario.get("/grupo/:grupo", controladorUsuario.getUsuariosByGrupo);
 
 routerUsuario.post("/", controladorUsuario.createUsuario);
 routerUsuario.post("/nombre", controladorUsuario.getUsuariosBySesion);
