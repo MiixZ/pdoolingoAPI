@@ -88,7 +88,6 @@ export class controladorER {
         sendError(res, "No se pudo actualizar la respuesta");
       }
     } catch (error: any) {
-      console.log(error);
       sendError(res, error.message);
     }
   }

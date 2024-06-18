@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { usuarioModel } from "../models/usuario";
 import { sendError, sendSuccess } from "../utils/requestHandler";
+import path from "path";
+import fs from "fs";
+import csv from "csv-parser";
+import { v4 as uuidv4 } from "uuid";
 
 export class controladorUsuario {
   static async getUsuarios(req: Request, res: Response) {
@@ -121,5 +125,53 @@ export class controladorUsuario {
     } catch (error: any) {
       sendError(res, error.message);
     }
+  }
+
+  static async loadCSV(req: Request, res: Response) {
+    const file = req.file;
+
+    if (!file) {
+      return res
+        .status(400)
+        .json({ message: "No se ha subido ningún archivo." });
+    }
+
+    if (path.extname(file.originalname) !== ".csv") {
+      return res.status(400).json({ message: "El archivo no es un CSV." });
+    }
+
+    const usuarios: any[] = [];
+    const csvFilePath = file.path;
+
+    fs.createReadStream(csvFilePath)
+      .pipe(csv())
+      .on("data", (row) => {
+        const usuario: any = {
+          id: uuidv4(),
+          nombre: row.nombre,
+          apellidos: row.apellidos,
+          email: row.email,
+          DNI: row.dni,
+          vidas: 5,
+          tipo: "estudiante",
+          grupo: req.body.grupo,
+        };
+
+        usuarios.push(usuario);
+      })
+      .on("end", async () => {
+        try {
+          for (const usuario of usuarios) {
+            await usuarioModel.createUsuario(usuario);
+          }
+
+          sendSuccess(res, "Usuarios cargados correctamente");
+        } catch (error: any) {
+          sendError(res, error.message, 500);
+        }
+      })
+      .on("error", (error) => {
+        sendError(res, "Error al leer el archivo CSV", 500);
+      });
   }
 }
