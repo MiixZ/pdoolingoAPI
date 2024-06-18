@@ -5,11 +5,11 @@ import mysql2, {
 } from "mysql2/promise";
 
 const config: ConnectionOptions = {
-  host: "localhost",
-  user: "root",
-  port: 3306,
-  password: "1111",
-  database: "pdoolingodb",
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  port: Number(process.env.DB_PORT) || 3306,
+  password: process.env.DB_PASSWORD || "1111",
+  database: process.env.DB_NAME || "pdoolingodb",
   connectionLimit: 20,
   waitForConnections: true,
   queueLimit: 0,

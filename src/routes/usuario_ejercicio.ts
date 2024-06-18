@@ -24,5 +24,9 @@ routerUE.delete(
   "/:id_ejercicio",
   controladorUE.desasignarEjerciciosByEjercicio
 );
+routerUE.delete(
+  "/usuario/:id_usuario",
+  controladorUE.desasignarEjerciciosByUsuario
+);
 
 export default routerUE;

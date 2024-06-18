@@ -112,4 +112,19 @@ export class controladorUE {
       sendError(res, error.message);
     }
   }
+
+  static async desasignarEjerciciosByUsuario(req: Request, res: Response) {
+    try {
+      const id_usuario = String(req.params.id_usuario);
+      const result = await UEModel.desasignarEjerciciosByUsuario(id_usuario);
+
+      if (result) {
+        sendSuccess(res, "Ejercicios desasignados correctamente");
+      } else {
+        sendError(res, "No se pudieron desasignar los ejercicios");
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
 }

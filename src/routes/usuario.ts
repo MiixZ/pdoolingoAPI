@@ -13,6 +13,7 @@ routerUsuario.post("/nombre", controladorUsuario.getUsuariosBySesion);
 routerUsuario.post("/dni", controladorUsuario.getUsuarioByDNI);
 
 routerUsuario.put("/:id", controladorUsuario.updateUsuario);
+
 routerUsuario.delete("/:id", controladorUsuario.deleteUsuario);
 
 export default routerUsuario;
