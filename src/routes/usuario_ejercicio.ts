@@ -25,7 +25,7 @@ routerUE.delete(
   controladorUE.desasignarEjerciciosByEjercicio
 );
 routerUE.delete(
-  "/usuario/:id_usuario",
+  "/delete/usuario/:id_usuario",
   controladorUE.desasignarEjerciciosByUsuario
 );
 
