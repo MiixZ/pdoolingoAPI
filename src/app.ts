@@ -2,6 +2,9 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import router from "./routes/router";
 import multer from "multer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT ?? 3000;
