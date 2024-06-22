@@ -143,15 +143,35 @@ export class controladorUsuario {
     const usuarios: any[] = [];
     const csvFilePath = file.path;
 
+    let delimiter = ",";
+    const firstLine = fs.readFileSync(csvFilePath, "utf8").split("\n")[0];
+    if (firstLine.includes(";")) {
+      delimiter = ";";
+    }
+
+    const cleanRow = (row: any) => {
+      const cleanedRow: any = {};
+      for (const key in row) {
+        const cleanedKey = key.trim();
+        cleanedRow[cleanedKey] = row[key].trim();
+      }
+      return cleanedRow;
+    };
+
     fs.createReadStream(csvFilePath)
-      .pipe(csv())
+      .pipe(csv({ separator: delimiter }))
       .on("data", (row) => {
+        const cleanedRow = cleanRow(row);
         const usuario: any = {
           id: uuidv4(),
-          nombre: row.nombre,
-          apellidos: row.apellidos,
-          email: row.email,
-          DNI: row.dni,
+          nombre: cleanedRow.nombre || cleanedRow.NOMBRE,
+          apellidos: cleanedRow.apellidos || cleanedRow.APELLIDOS,
+          email:
+            cleanedRow.email ||
+            cleanedRow.correo ||
+            cleanedRow.EMAIL ||
+            cleanedRow.CORREO,
+          DNI: cleanedRow.dni || cleanedRow.DNI,
           vidas: 5,
           tipo: "estudiante",
           grupo: req.body.grupo,
