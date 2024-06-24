@@ -32,6 +32,29 @@ export class UEModel {
     return null;
   }
 
+  static async getEjerciciosByUsuario(
+    id_usuario: string
+  ): Promise<usuario_ejercicio[]> {
+    const ejercicios = await db.query<RowDataPacket[]>(
+      "SELECT * FROM USUARIOS_EJERCICIOS WHERE ID_USUARIO = ?",
+      [id_usuario]
+    );
+
+    return ejercicios as usuario_ejercicio[];
+  }
+
+  static async getEjerciciosTemaByUsuario(
+    id_usuario: string,
+    id_tema: number
+  ): Promise<usuario_ejercicio[]> {
+    const ejercicios = await db.query<RowDataPacket[]>(
+      "SELECT UE.ID_USUARIO, UE.ID_EJERCICIO, UE.xp_ganada FROM USUARIOS_EJERCICIOS AS UE JOIN EJERCICIOS AS E ON UE.ID_EJERCICIO = E.ID WHERE UE.ID_USUARIO = ? AND E.ID_TEMA = ?",
+      [id_usuario, id_tema]
+    );
+
+    return ejercicios as usuario_ejercicio[];
+  }
+
   static async asignarEjercicio(
     id_usuario: string,
     id_ejercicio: number,
@@ -80,14 +103,25 @@ export class UEModel {
     return result.affectedRows > 0;
   }
 
-  static async getEjerciciosByUsuario(
+  static async desasignarEjerciciosByEjercicio(
+    id_ejercicio: number
+  ): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM USUARIOS_EJERCICIOS WHERE ID_EJERCICIO = ?",
+      [id_ejercicio]
+    );
+
+    return result.affectedRows > 0;
+  }
+
+  static async desasignarEjerciciosByUsuario(
     id_usuario: string
-  ): Promise<usuario_ejercicio[]> {
-    const ejercicios = await db.query<RowDataPacket[]>(
-      "SELECT * FROM USUARIOS_EJERCICIOS WHERE ID_USUARIO = ?",
+  ): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM USUARIOS_EJERCICIOS WHERE ID_USUARIO = ?",
       [id_usuario]
     );
 
-    return ejercicios as usuario_ejercicio[];
+    return result.affectedRows > 0;
   }
 }

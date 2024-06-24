@@ -28,6 +28,19 @@ export class controladorEjercicio {
     }
   }
 
+  static async getEjerciciosByTema(req: Request, res: Response) {
+    try {
+      const n_tema = Number(req.params["n_tema"]);
+      const ejercicios = await EjercicioModel.getEjerciciosByTema(n_tema);
+
+      ejercicios.length > 0
+        ? sendSuccess(res, ejercicios)
+        : sendError(res, "No hay ejercicios registrados para ese tema", 404);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
   static async createEjercicio(req: Request, res: Response) {
     try {
       const ejercicio = req.body;
@@ -46,7 +59,6 @@ export class controladorEjercicio {
     try {
       const ejercicio = req.body;
       const id = Number(req.params["id"]);
-      //  TODO: Validar los datos de entrada.
       const result = await EjercicioModel.updateEjercicio(id, ejercicio);
 
       result

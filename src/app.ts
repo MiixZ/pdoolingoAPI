@@ -1,6 +1,10 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import router from "./routes/router";
+import multer from "multer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT ?? 3000;
@@ -8,10 +12,8 @@ const port = process.env.PORT ?? 3000;
 app.use(express.json());
 app.use(cors());
 
-// Rutas
-app.get("/", async (req: Request, res: Response) => {
-  res.send("¡Hola, mundo!");
-});
+// Configura multer para almacenar archivos en un directorio temporal
+const upload = multer({ dest: "uploads/" });
 
 app.use("/", router);
 

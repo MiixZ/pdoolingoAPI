@@ -4,12 +4,16 @@ import mysql2, {
   RowDataPacket,
 } from "mysql2/promise";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const config: ConnectionOptions = {
-  host: "localhost",
-  user: "root",
-  port: 3306,
-  password: "1111",
-  database: "pdoolingodb",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  port: Number(process.env.DB_PORT),
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   connectionLimit: 20,
   waitForConnections: true,
   queueLimit: 0,

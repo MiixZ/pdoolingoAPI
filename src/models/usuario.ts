@@ -10,6 +10,7 @@ interface Usuario {
   DNI: DNI;
   vidas: number;
   tipo: TipoUsuario;
+  grupo: number;
 }
 
 interface DNI {
@@ -43,13 +44,10 @@ export class usuarioModel {
     return null;
   }
 
-  static async getUsuariosByNombreApellidosEmail(
-    nombreCompleto: string,
-    email: string
-  ): Promise<Usuario[] | null> {
+  static async getUsuarioByEmail(email: string): Promise<Usuario[] | null> {
     const usuarios = await db.query<RowDataPacket[]>(
-      "SELECT * FROM USUARIOS WHERE EMAIL = ? AND CONCAT(nombre, ' ', apellidos) = ?",
-      [email, nombreCompleto]
+      "SELECT * FROM USUARIOS WHERE EMAIL = ?",
+      [email]
     );
 
     if (Array.isArray(usuarios) && usuarios.length > 0) {
@@ -72,6 +70,15 @@ export class usuarioModel {
     return null;
   }
 
+  static async getUsuariosByGrupo(grupo: number): Promise<Usuario[]> {
+    const usuarios = await db.query<RowDataPacket[]>(
+      "SELECT * FROM USUARIOS WHERE GRUPO = ?",
+      grupo
+    );
+
+    return usuarios as Usuario[];
+  }
+
   static async createUsuario(data: Usuario): Promise<Usuario | null> {
     const id = uuidv4();
     data.id = id;
@@ -82,7 +89,6 @@ export class usuarioModel {
     );
 
     if (result) {
-      // Usa el UUID para recuperar el usuario
       return this.getUsuarioByID(id);
     }
 

@@ -31,6 +31,30 @@ export class controladorUE {
     }
   }
 
+  static async getEjerciciosByUsuario(req: Request, res: Response) {
+    try {
+      const id_usuario = String(req.params.id_usuario);
+      const ejercicios = await UEModel.getEjerciciosByUsuario(id_usuario);
+      sendSuccess(res, ejercicios);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async getEjerciciosTemaByUsuario(req: Request, res: Response) {
+    try {
+      const id_usuario = String(req.params.id_usuario);
+      const id_tema = Number(req.params.id_tema);
+      const ejercicios = await UEModel.getEjerciciosTemaByUsuario(
+        id_usuario,
+        id_tema
+      );
+      sendSuccess(res, ejercicios);
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
   static async asignarEjercicio(req: Request, res: Response) {
     try {
       const id_usuario = String(req.body.id_usuario);
@@ -72,11 +96,33 @@ export class controladorUE {
     }
   }
 
-  static async getEjerciciosByUsuario(req: Request, res: Response) {
+  static async desasignarEjerciciosByEjercicio(req: Request, res: Response) {
+    try {
+      const id_ejercicio = Number(req.params.id_ejercicio);
+      const result = await UEModel.desasignarEjerciciosByEjercicio(
+        id_ejercicio
+      );
+
+      if (result) {
+        sendSuccess(res, "Ejercicios desasignados correctamente");
+      } else {
+        sendError(res, "No se pudieron desasignar los ejercicios");
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async desasignarEjerciciosByUsuario(req: Request, res: Response) {
     try {
       const id_usuario = String(req.params.id_usuario);
-      const ejercicios = await UEModel.getEjerciciosByUsuario(id_usuario);
-      sendSuccess(res, ejercicios);
+      const result = await UEModel.desasignarEjerciciosByUsuario(id_usuario);
+
+      if (result) {
+        sendSuccess(res, "Ejercicios desasignados correctamente");
+      } else {
+        sendError(res, "No se pudieron desasignar los ejercicios");
+      }
     } catch (error: any) {
       sendError(res, error.message);
     }

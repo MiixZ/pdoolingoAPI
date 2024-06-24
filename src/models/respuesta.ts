@@ -1,9 +1,10 @@
 import db from "../database/database";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 
-interface Respuesta {
+export interface Respuesta {
   id: number;
   texto: string;
+  correcta?: boolean;
 }
 
 export class RespuestaModel {
@@ -22,6 +23,15 @@ export class RespuestaModel {
     );
 
     return respuesta[0] as Respuesta;
+  }
+
+  static async getRespuestaByTexto(texto: string): Promise<Respuesta | null> {
+    const respuestas = await db.query<RowDataPacket[]>(
+      "SELECT * FROM RESPUESTAS WHERE TEXTO = ?",
+      [texto]
+    );
+
+    return respuestas[0] ? (respuestas[0] as Respuesta) : null;
   }
 
   static async createRespuesta(data: Respuesta): Promise<Respuesta | null> {

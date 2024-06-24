@@ -8,6 +8,7 @@ interface Ejercicio {
   coste_pista: number;
   tipo_coste_pista: tipoCostePista;
   xp: number;
+  id_tema: number;
 }
 
 enum tipoEjercicio {
@@ -42,6 +43,15 @@ export class EjercicioModel {
     }
 
     return null;
+  }
+
+  static async getEjerciciosByTema(n_tema: number): Promise<Ejercicio[]> {
+    const ejercicios = await db.query<RowDataPacket[]>(
+      "SELECT * FROM EJERCICIOS WHERE ID_TEMA = ?",
+      n_tema
+    );
+
+    return ejercicios as Ejercicio[];
   }
 
   static async createEjercicio(data: Ejercicio): Promise<Ejercicio | null> {

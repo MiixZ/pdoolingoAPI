@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { usuarioModel } from "../models/usuario";
 import { sendError, sendSuccess } from "../utils/requestHandler";
+import path from "path";
+import fs from "fs";
+import csv from "csv-parser";
+import { v4 as uuidv4 } from "uuid";
 
 export class controladorUsuario {
   static async getUsuarios(req: Request, res: Response) {
@@ -30,12 +34,8 @@ export class controladorUsuario {
   static async getUsuariosBySesion(req: Request, res: Response) {
     try {
       const data = req.body;
-      const nombreCompleto = data.nombreCompleto;
       const email = data.email;
-      const usuarios = await usuarioModel.getUsuariosByNombreApellidosEmail(
-        nombreCompleto,
-        email
-      );
+      const usuarios = await usuarioModel.getUsuarioByEmail(email);
 
       if (usuarios) {
         sendSuccess(res, usuarios);
@@ -60,6 +60,21 @@ export class controladorUsuario {
         sendSuccess(res, usuario);
       } else {
         sendError(res, "Usuario no encontrado", 404);
+      }
+    } catch (error: any) {
+      sendError(res, error.message);
+    }
+  }
+
+  static async getUsuariosByGrupo(req: Request, res: Response) {
+    try {
+      const grupo = Number(req.params.grupo);
+      const usuarios = await usuarioModel.getUsuariosByGrupo(grupo);
+
+      if (usuarios) {
+        sendSuccess(res, usuarios);
+      } else {
+        sendError(res, "Usuarios no encontrados", 404);
       }
     } catch (error: any) {
       sendError(res, error.message);
@@ -110,5 +125,73 @@ export class controladorUsuario {
     } catch (error: any) {
       sendError(res, error.message);
     }
+  }
+
+  static async loadCSV(req: Request, res: Response) {
+    const file = req.file;
+
+    if (!file) {
+      return res
+        .status(400)
+        .json({ message: "No se ha subido ningún archivo." });
+    }
+
+    if (path.extname(file.originalname) !== ".csv") {
+      return res.status(400).json({ message: "El archivo no es un CSV." });
+    }
+
+    const usuarios: any[] = [];
+    const csvFilePath = file.path;
+
+    let delimiter = ",";
+    const firstLine = fs.readFileSync(csvFilePath, "utf8").split("\n")[0];
+    if (firstLine.includes(";")) {
+      delimiter = ";";
+    }
+
+    const cleanRow = (row: any) => {
+      const cleanedRow: any = {};
+      for (const key in row) {
+        const cleanedKey = key.trim();
+        cleanedRow[cleanedKey] = row[key].trim();
+      }
+      return cleanedRow;
+    };
+
+    fs.createReadStream(csvFilePath)
+      .pipe(csv({ separator: delimiter }))
+      .on("data", (row) => {
+        const cleanedRow = cleanRow(row);
+        const usuario: any = {
+          id: uuidv4(),
+          nombre: cleanedRow.nombre || cleanedRow.NOMBRE,
+          apellidos: cleanedRow.apellidos || cleanedRow.APELLIDOS,
+          email:
+            cleanedRow.email ||
+            cleanedRow.correo ||
+            cleanedRow.EMAIL ||
+            cleanedRow.CORREO,
+          DNI: cleanedRow.dni || cleanedRow.DNI,
+          vidas: 5,
+          tipo: "estudiante",
+          grupo: req.body.grupo,
+        };
+
+        usuarios.push(usuario);
+      })
+      .on("end", async () => {
+        try {
+          for (const usuario of usuarios) {
+            await usuarioModel.createUsuario(usuario);
+          }
+
+          sendSuccess(res, "Usuarios cargados correctamente");
+        } catch (error: any) {
+          sendError(res, error.message, 500);
+        }
+      })
+      .on("error", (error) => {
+        sendError(res, "Error al leer el archivo CSV", 500);
+      });
   }
 }

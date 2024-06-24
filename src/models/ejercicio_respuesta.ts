@@ -1,6 +1,8 @@
 import db from "../database/database";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 
+import type { Respuesta } from "./respuesta";
+
 interface ejercicio_respuesta {
   id_ejercicio: number;
   id_respuesta: number;
@@ -34,13 +36,13 @@ export class ERModel {
 
   static async getRespuestasByEjercicio(
     id_ejercicio: number
-  ): Promise<ejercicio_respuesta[]> {
-    const id_respuestas = await db.query<RowDataPacket[]>(
-      "SELECT * FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
+  ): Promise<{ respuestas: Respuesta[] }> {
+    const respuestas = await db.query<RowDataPacket[]>(
+      "SELECT R.*, ER.ES_CORRECTA AS correcta FROM RESPUESTAS R INNER JOIN EJERCICIOS_RESPUESTAS ER ON R.ID = ER.ID_RESPUESTA WHERE ER.ID_EJERCICIO = ?",
       [id_ejercicio]
     );
 
-    return id_respuestas as ejercicio_respuesta[];
+    return { respuestas: respuestas as Respuesta[] };
   }
 
   static async asignarRespuesta(
@@ -60,12 +62,40 @@ export class ERModel {
     return null;
   }
 
+  static async updateEjercicioRespuesta(
+    id_ejercicio: number,
+    id_respuesta: number,
+    es_correcta: boolean
+  ): Promise<ejercicio_respuesta | null> {
+    const result = await db.query<ResultSetHeader>(
+      "UPDATE EJERCICIOS_RESPUESTAS SET ES_CORRECTA = ? WHERE ID_EJERCICIO = ? AND ID_RESPUESTA = ?",
+      [es_correcta, id_ejercicio, id_respuesta]
+    );
+
+    if (result.affectedRows > 0) {
+      return this.getEjercicioRespuestaByID(id_ejercicio, id_respuesta);
+    }
+
+    return this.getEjercicioRespuestaByID(id_ejercicio, id_respuesta);
+  }
   static async deleteEjercicioRespuestasByEjercicio(
     id_ejercicio: number
   ): Promise<boolean> {
     const result = await db.query<ResultSetHeader>(
       "DELETE FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ?",
       [id_ejercicio]
+    );
+
+    return result ? true : false;
+  }
+
+  static async deleteEjercicioRespuesta(
+    id_ejercicio: number,
+    id_respuesta: number
+  ): Promise<boolean> {
+    const result = await db.query<ResultSetHeader>(
+      "DELETE FROM EJERCICIOS_RESPUESTAS WHERE ID_EJERCICIO = ? AND ID_RESPUESTA = ?",
+      [id_ejercicio, id_respuesta]
     );
 
     return result ? true : false;
